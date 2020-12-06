@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-data = {
+todo_data = {
     'do': [
         {'name': 'Купить шариков', 'is_done': False},
         {'name': 'Заказать торт', 'is_done': False, 'date': '05.06.2019'},
@@ -11,7 +11,7 @@ data = {
 
 
 def todo_view(request):
-    context = data
+    context = todo_data
     return render(request, 'list.html', context)
 
 
