@@ -1,3 +1,4 @@
+{% load get_count %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -46,7 +47,7 @@
              {% for key in do %}
                 <div class="table-data__table-row">
                     <div class="table-row_table_cell-1">
-                        {% if row.is_done %}
+                            {% if key.is_done %}
                                 <a href="#"><li class="is_done_text">{{ key.name }}</li></a>
                             {% else %}
                                 <a href="#"><li>{{ key.name }}</li></a>
@@ -64,9 +65,13 @@
                             </a>
                         </div>
                         <div class="calendarik">
-                            <a href='#'>
-                                <img src="/static/images/calendar.png" alt="calendar" width="26px" height="24px">
-                            </a>
+                            {% if {{key.date}} %}
+                                {{key.date}}
+                            {% else %}
+                                <a href='#'>
+                                     <img src="/static/images/calendar.png" alt="calendar" width="26px" height="24px">
+                                </a>
+                            {% endif %}
                         </div>
                         <div class="table-row_table_icon">
                             <a class="delete_button" href="#">
@@ -81,6 +86,9 @@
                     </div>
                  </div>
              {% endfor %}
+            {% for i in lists|get_count %}
+                    <div class="table-data__table-row"></div>
+            {% endfor %}
         </div>
     </section>
 </div>
