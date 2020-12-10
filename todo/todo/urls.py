@@ -21,5 +21,5 @@ from todo_item.views import todo_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main_view),
-    path('', todo_view)
+    path('item/', todo_view)
 ]
