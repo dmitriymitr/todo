@@ -7,6 +7,7 @@ todo_data = {
         {'name': 'Разослать приглашения', 'is_done': False}
     ],
     'user_name': 'Admin',
+    'list_name': 'День рождения',
 }
 
 
