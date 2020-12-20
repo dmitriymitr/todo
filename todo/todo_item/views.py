@@ -1,18 +1,15 @@
 from django.shortcuts import render
-
-todo_data = {
-    'do': [
-        {'name': 'Купить шариков', 'is_done': False},
-        {'name': 'Заказать торт', 'is_done': False, 'date': '05.06.2019'},
-        {'name': 'Разослать приглашения', 'is_done': False}
-    ],
-    'user_name': 'Admin',
-    'list_name': 'День рождения',
-}
+from todo_item.models import ItemModel
 
 
 def todo_view(request):
-    context = todo_data
+
+    lists = ItemModel.objects.filter(
+        user=request.user
+    )
+
+    context = {
+        'lists': lists
+    }
+
     return render(request, 'list.html', context)
-
-
