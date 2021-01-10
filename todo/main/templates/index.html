@@ -8,6 +8,12 @@
     <div class="table-data_table-header-item-1">TO DO List</div>
 {% endblock %}
 
+{% block create %}
+    <a class="add_new_list" href="{% url "main:create" %}">
+      <div class="header__button-create-bundle">+</div>
+    </a>
+{% endblock %}
+
 {% block body %}
     {% for row in lists %}
         <div class="table-data__table-row">
