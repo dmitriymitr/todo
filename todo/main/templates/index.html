@@ -9,24 +9,23 @@
 {% endblock %}
 
 {% block create %}
-    <a class="add_new_list" href="{% url "main:create" %}">
-      <div class="header__button-create-bundle">+</div>
+    <a class="add_new_list" href="{% url 'main:create' %}">
+        <div class="header__button-create-bundle">+</div>
     </a>
 {% endblock %}
-
-{% block body %}
+ {% block body %}
     {% for row in lists %}
         <div class="table-data__table-row">
             <div class="table-row_table_cell-1">
                 {% if row.is_done %}
-                    <a href="{% url "item:item" pk=row.id%}"><li class="is_done_text">{{ row.name }}</li></a>
+                    <a href="{% url "item:item" pk=row.id %}"><li class="is_done_text">{{ row.name }}</li></a>
                 {% else %}
-                    <a href="{% url "item:item" pk=row.id%}"><li>{{ row.name }}</li></a>
+                    <a href="{% url "item:item" pk=row.id %}"><li>{{ row.name }}</li></a>
                 {% endif %}
             </div>
             <div class="buttons">
                 <div class="table-data-two_table-icon">
-                    <a href='#'>
+                    <a href='{% url 'main:edit' pk=row.id %}'>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -35,7 +34,7 @@
                         </svg>
                     </a>
                 </div>
-                <a class="delete_button" href="#">
+                <a class="delete_button" href="{% url 'main:delete' pk=row.id %}">
                     <div class="table-row_table_icon">
                         <svg width="20" height="22" viewBox="0 0 20 22" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
@@ -51,7 +50,9 @@
 {% endblock %}
 
 {% block empty %}
-    {% for key in lists|get_count %}
-        <div class="table-data__table-row"></div>
+    {% for _ in lists|get_count %}
+        <div class="table-data__table-row">
+            <div class="table-row_table_cell-1"></div>
+        </div>
     {% endfor %}
 {% endblock %}
