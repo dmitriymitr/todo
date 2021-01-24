@@ -16,7 +16,7 @@
         <div class="header__button-create-bundle">+</div>
     </a>
 {% endblock %}
- {% block body %}
+{% block body %}
     {% for list in lists %}
         <div class="table-data__table-row">
         {% if list.is_done %}
@@ -61,9 +61,90 @@
 {% endblock %}
 
 {% block empty %}
+
     {% for _ in lists|get_count %}
-        <div class="table-data__table-row">
-            <div class="table-row_table_cell-1"></div>
-        </div>
+       <div class="table-data__table-row">
+           <div class="table-row_table_cell-1"></div>
+       </div>
     {% endfor %}
+
+    {% if is_paginated %}
+        <div class="table-data__table-row">
+            <div class="paginator_class">
+                <ul class="pagination-wrapper_button">
+                    {% for page in paginator.page_range %}
+                        {% if page_obj.number == page %}
+                            <li><a class="active" href="{% url 'item:item' pk %}?page={{ page }}">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="{% url 'item:item' pk %}?page={{ page }}">{{ page }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block js %}
+
+  <script>
+
+        const rows = document.querySelectorAll('.table-row_table_cell-1');
+        const csrftoken = getCookie('csrftoken');
+        const isDoneUrl = '/item/is_done/';
+
+        rows.forEach(
+            row => {
+                if (row.innerText) {
+                    row.addEventListener('click', isDoneRequest);
+                }
+            }
+        );
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+
+        function isDoneRequest (event) {
+            console.log('click');
+            const id = event.currentTarget.id;
+
+            return fetch(isDoneUrl, {
+                method: 'POST',
+                headers: new Headers({'X-CSRFToken': csrftoken}),
+                redirect: 'follow',
+                body: JSON.stringify({id: id})
+            }).then(
+                respone => {
+                    if (respone.status === 201) {
+                        if (event.target.classList.contains('is_done_text')) {
+                            event.target.classList.remove('is_done_text');
+                        } else {
+                            event.target.classList.add('is_done_text');
+                        }
+                    } else {
+                        alert('Сервер не доступен');
+                    }
+                }
+            )
+        }
+
+
+  </script>
+
 {% endblock %}

@@ -15,6 +15,19 @@ class ItemModel(models.Model):
     def __str__(self):
         return f'@id={self.id}@name={self.name}@list={self.list_model.name}'
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        super().save()
+
+        items = ItemModel.objects.filter(list_model=self.list_model)
+
+        if all([item.is_done for item in items]):
+            self.list_model.is_done = True
+            self.list_model.save()
+        else:
+            self.list_model.is_done = False
+            self.list_model.save()
+
     class Meta:
         verbose_name = 'Элемент списка'
         verbose_name_plural = 'Элементы списка'

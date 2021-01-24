@@ -13,7 +13,7 @@
         <div class="header__button-create-bundle">+</div>
     </a>
 {% endblock %}
- {% block body %}
+{% block body %}
     {% for row in lists %}
         <div class="table-data__table-row">
             <div class="table-row_table_cell-1">
@@ -55,4 +55,21 @@
             <div class="table-row_table_cell-1"></div>
         </div>
     {% endfor %}
+
+    {% if is_paginated %}
+        <div class="table-data__table-row">
+            <div class="paginator_class">
+                <ul class="pagination-wrapper_button">
+                    {% for page in paginator.page_range %}
+                        {% if page_obj.number == page %}
+                            <li><a class="active" href="{% url 'main:main' %}?page={{ page }}">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="{% url 'main:main' %}?page={{ page }}">{{ page }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+
 {% endblock %}
